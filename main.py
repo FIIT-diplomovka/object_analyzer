@@ -6,7 +6,7 @@ from kafka import KafkaConsumer
 import json
 
 consumer = KafkaConsumer("NEW_ENTRY", bootstrap_servers=os.environ.get("KAFKA_URL"))
-
+print("Listening for Kafka events...")
 for msg in consumer:
     data = json.loads(msg.value.decode("utf-8"))
     print(json.dumps(data, indent=4))
