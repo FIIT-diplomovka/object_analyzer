@@ -18,6 +18,7 @@ class ObjectStorage:
         self.mc.fget_object(bucket, object, dest_file)
         return dest_file
     
+    # TODO: maybe switch this to set a flag in DB? this might be too slow with big files...
     def update_object_metadata(self, bucket, object, metadata):
         self.mc.copy_object(bucket, object, CopySource(bucket, object), metadata=metadata, metadata_directive=REPLACE)
         return
