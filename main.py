@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from utilities.object_storage_connector import ObjectStorage
 from utilities.metadata_extractor import MetadataExtractor
 import os
+import hashlib
 if os.path.exists("./.env"):
     load_dotenv()
 from kafka import KafkaConsumer

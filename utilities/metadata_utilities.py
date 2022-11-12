@@ -1,6 +1,7 @@
 import os
 import csv
 import json
+import hashlib
 import subprocess
 
 class Droid():
@@ -39,6 +40,12 @@ class Droid():
                 dc[key] = metadata[dc_map[key]]
             else:
                 dc[key] = ""
+        # get SHA-256
+        sha256_hash = hashlib.sha256()
+        with open(file_path, "rb") as f:
+            for byte_block in iter(lambda: f.read(4096),b""):
+                sha256_hash.update(byte_block)
+            dc["sha_256"] = sha256_hash.hexdigest()
         os.remove(initial_csv)
         os.remove(temp_profile)
         os.remove(file_path)
