@@ -1,10 +1,12 @@
-FROM python:3.9-alpine
+FROM python:3.9
 
 WORKDIR /app
 
 COPY . ./
 
-RUN apk add openjdk11
+RUN apt update && apt upgrade
+
+RUN apt install default-jre
 
 RUN pip install -r requirements.txt
 
