@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . ./
 
-RUN apt update && apt upgrade
+RUN apt update && apt -y upgrade
 
 RUN apt install default-jre
 
