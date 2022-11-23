@@ -6,7 +6,7 @@ COPY . ./
 
 RUN apt update && apt -y upgrade
 
-RUN apt install default-jre
+RUN apt install -y default-jre
 
 RUN pip install -r requirements.txt
 
