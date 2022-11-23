@@ -16,4 +16,4 @@ RUN chmod +x /app/analysis/droid/droid.sh
 
 RUN pip install -r requirements.txt
 
-CMD ["/bin/bash"]
+CMD ["python", "main.py"]
