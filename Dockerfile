@@ -1,4 +1,4 @@
-FROM python:3.9.15-bullseye
+FROM ubuntu
 
 WORKDIR /app
 
@@ -10,10 +10,12 @@ COPY . ./
 
 RUN apt update && apt -y upgrade
 
-RUN apt install -y default-jre
+RUN apt install -y openjdk-11-jdk
 
-RUN chmod +x /app/analysis/droid/droid.sh
+# RUN chmod +x /app/analysis/droid/droid.sh
 
-RUN pip install -r requirements.txt
+# RUN pip install -r requirements.txt
 
-CMD ["python", "main.py"]
+# CMD ["python", "main.py"]
+
+CMD ["/bin/bash"]
