@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 from utilities.object_storage_connector import ObjectStorage
 from utilities.metadata_extractor import MetadataExtractor
 import os
-import hashlib
 import logging
 if os.path.exists("./.env"):
     load_dotenv()
@@ -19,6 +18,8 @@ consumer = KafkaConsumer("NEW_ENTRY", bootstrap_servers=os.environ.get("KAFKA_UR
 
 # TODO: use the database for updating the flag in the DB. if you dont do this, there is a race condition bug :(
 logging.info("Listening for Kafka events...")
+logging.error("BRUUUH")
+print("PRIIINT BRUUH")
 for msg in consumer:
     try:
         data = json.loads(msg.value.decode("utf-8"))
