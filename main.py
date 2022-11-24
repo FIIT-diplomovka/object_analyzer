@@ -15,7 +15,7 @@ if not mc.is_connected():
     exit(1)
 
 consumer = KafkaConsumer("NEW_ENTRY", bootstrap_servers=os.environ.get("KAFKA_URL"))
-
+logging.basicConfig(level=logging.INFO)
 # TODO: use the database for updating the flag in the DB. if you dont do this, there is a race condition bug :(
 logging.info("Listening for Kafka events...")
 logging.error("BRUUUH")
