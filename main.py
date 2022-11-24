@@ -16,12 +16,10 @@ if not mc.is_connected():
 
 consumer = KafkaConsumer("NEW_ENTRY", bootstrap_servers=os.environ.get("KAFKA_URL"))
 logging.basicConfig()
-logging.root.setLevel(logging.NOTSET)
-logging.basicConfig(level=logging.NOTSET)
+logging.root.setLevel(logging.INFO)
+logging.basicConfig(level=logging.INFO)
 # TODO: use the database for updating the flag in the DB. if you dont do this, there is a race condition bug :(
 logging.info("Listening for Kafka events...")
-logging.error("BRUUUH")
-print("PRIIINT BRUUH")
 for msg in consumer:
     try:
         data = json.loads(msg.value.decode("utf-8"))
