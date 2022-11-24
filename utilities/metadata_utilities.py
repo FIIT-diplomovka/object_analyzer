@@ -1,6 +1,7 @@
 import os
 import csv
 import json
+import logging
 import hashlib
 import subprocess
 
@@ -18,16 +19,16 @@ class Droid():
         initial_csv = Droid.TEMP_DIR + Droid.OS_DELIMITER + "intialcsv-" + file_name + ".csv"
         droid_run = Droid.DROID_DIR + Droid.OS_DELIMITER + Droid.DROID_RUNNABLE
         droid = subprocess.run([droid_run, "-a", file_path, "-p", temp_profile], capture_output=True, text=True)
-        print("Initial profile done..")
+        logging.info("Initial profile done..")
         if not droid.returncode == 0:
-            print("Error during the initial profiling:")
-            print(droid.stderr)
+            logging.error("Error during the initial profiling:")
+            logging.error(droid.stderr)
             return
         droid = subprocess.run([droid_run, "-e", initial_csv, "-p", temp_profile], capture_output=True, text=True)
-        print("CSV creation done")
+        logging.info("CSV creation done")
         if not droid.returncode == 0:
-            print("Error during CSV generation:")
-            print(droid.stderr)
+            logging.error("Error during CSV generation:")
+            logging.error(droid.stderr)
             return
         with open(initial_csv, "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
