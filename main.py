@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from utilities.object_storage_connector import ObjectStorage
 from utilities.metadata_extractor import MetadataExtractor
+from utilities.postgres_connector import Postgres
 import os
 import logging
 if os.path.exists("./.env"):
@@ -10,6 +11,7 @@ import json
 
 
 mc = ObjectStorage()
+postgres = Postgres()
 
 if not mc.is_connected():
     exit(1)
@@ -28,7 +30,8 @@ for msg in consumer:
         extractor = MetadataExtractor()
         metadata = extractor.extract_using_droid(path)
         metadata["stage"] = "done"
-        mc.update_object_metadata(data["bucket"], data["path"], metadata)
+        # mc.update_object_metadata(data["bucket"], data["path"], metadata)
+        logging.info(postgres.update_metadata(data["bucket"], data["path"], metadata))
         logging.info("Done.")
     except Exception as e:
         logging.info(e)
