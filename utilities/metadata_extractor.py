@@ -1,6 +1,7 @@
 import os
 import json
-from .metadata_utilities import Droid
+import logging
+from .metadata_utilities import Droid, Tika
 
 class MetadataExtractor:
     EMPTY_DCM = "./static/empty_dublin_core.json"
@@ -11,6 +12,13 @@ class MetadataExtractor:
         return dcm
 
     def extract_using_droid(self, file_path):
+        logging.info("Starting DROID extraction...")
         droid = Droid()
-        dcm = droid.extract_metadata(file_path)
+        dcm = droid.extract_metadata_dc(file_path)
+        return dcm
+    
+    def extract_using_tika(self, file_path):
+        logging.info("Starting TIKA extraction...")
+        tika = Tika()
+        dcm = tika.extract_metadata_dc(file_path)
         return dcm

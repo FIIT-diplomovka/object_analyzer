@@ -1,0 +1,17 @@
+{
+    "DCM_contributor": [],
+    "DCM_coverage": [],
+    "DCM_creator": ["dc:creator"],
+    "DCM_date": ["dcterms:created, pdf:docinfo:created", "xmp:ModifyDate"],
+    "DCM_description": [],
+    "DCM_format": ["dc:format"],
+    "DCM_identifier": [],
+    "DCM_language": ["dc:language"],
+    "DCM_publisher": ["dc:publisher"],
+    "DCM_relation": [],
+    "DCM_rights": [],
+    "DCM_source": ["X-TIKA:origResourceName"],
+    "DCM_subject": ["dc:subject"],
+    "DCM_title": ["dc:title"],
+    "DCM_type": ["Content-Type"]
+}

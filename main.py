@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from utilities.object_storage_connector import ObjectStorage
 from utilities.metadata_extractor import MetadataExtractor
 from utilities.postgres_connector import Postgres
+from utilities.malware_analysis import MalwareAnalysis
 import os
 import logging
 if os.path.exists("./.env"):
@@ -20,7 +21,6 @@ consumer = KafkaConsumer("NEW_ENTRY", bootstrap_servers=os.environ.get("KAFKA_UR
 logging.basicConfig()
 logging.root.setLevel(logging.INFO)
 logging.basicConfig(level=logging.INFO)
-# TODO: use the database for updating the flag in the DB. if you dont do this, there is a race condition bug :(
 logging.info("Listening for Kafka events...")
 for msg in consumer:
     try:
@@ -28,11 +28,24 @@ for msg in consumer:
         logging.info("Consuming " + data["path"])
         path = mc.save_object(data["bucket"], data["path"])
         extractor = MetadataExtractor()
-        metadata = extractor.extract_using_droid(path)
+        metadata = extractor.extract_using_droid(path) if data["method"] == "droid" else extractor.extract_using_tika(path)
+        logging.info(metadata)
         metadata["stage"] = "done"
-        # mc.update_object_metadata(data["bucket"], data["path"], metadata)
+        # check if malware analysis is possible
+        if MalwareAnalysis.is_analysis_supported(path):
+            logging.info("Malware analysis available, starting...")
+            malware = MalwareAnalysis()
+            result = malware.is_malware_using_tika(path)
+            logging.info("Malware analysis done.")
+            if result != None:
+                metadata["malware"] = result
+            else:
+                metadata["malware"] = "unsupported"
+        else:
+            metadata["malware"] = "unsupported"
         logging.info(postgres.update_metadata(data["bucket"], data["path"], metadata))
+        os.remove(path)
         logging.info("Done.")
     except Exception as e:
-        logging.info(e)
+        logging.error(e)
         continue
