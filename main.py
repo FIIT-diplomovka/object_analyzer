@@ -28,7 +28,7 @@ for msg in consumer:
         logging.info("Consuming " + data["path"])
         path = mc.save_object(data["bucket"], data["path"])
         extractor = MetadataExtractor()
-        metadata = extractor.extract_using_droid(path) if data["method"] == "droid" else extractor.extract_using_tika(path)
+        metadata = extractor.extract_using_droid(path, data["use_gpt3"]) if data["method"] == "droid" else extractor.extract_using_tika(path, data["use_gpt3"])
         logging.info(metadata)
         metadata["stage"] = "done"
         # check if malware analysis is possible
